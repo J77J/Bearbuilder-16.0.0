@@ -3,6 +3,54 @@
   max-width: var(--page-width);
 }
 
+@keyframes show-opacity {
+  from { opacity: 0; }
+}
+
+#drop-menu.drop-menu-hidden {
+  height: 0px;
+  transition: height 200ms ease-in;
+  position: relative;
+}
+
+#drop-menu {
+  height: 42px;
+  transition: height 200ms ease-in;
+}
+
+#drop-menu.drop-menu-hidden ul > li {
+  z-index: -1; 
+  opacity: 0;
+}
+
+#drop-menu ul > li {
+  z-index: inherit; 
+  opacity: 1;
+}
+
+#drop-menu:not(.drop-menu-hidden) ul > li {
+  animation: show-opacity 750ms;  
+}
+
+#drop-menu:not(.drop-menu-hidden) ul > li li{ /* in to speed up animation on second level dropdowns which don't really need the fade in.. */
+  animation: show-opacity 300ms;  
+}
+
+#drop-menu.scrolled {
+  top: 84px;
+  position: absolute;
+  background: var(--gradient-background);
+  width: 100%;
+  display: grid;
+  justify-content: center;
+}
+
+#drop-menu-ul {
+  /* display: none; */
+  /* opacity: 0; */
+  /* transition: opacity 200ms ease-in; */ 
+}
+
 /* base.css 596 */
 @media screen and (max-width: 749px) {
   .small-hide {

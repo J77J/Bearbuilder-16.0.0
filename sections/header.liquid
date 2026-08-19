@@ -268,7 +268,7 @@
           render 'header-mega-menu'
         endif
       endif
-    %}
+    -%}
 
     {%- if section.settings.logo_position == 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
@@ -382,11 +382,9 @@
 
     connectedCallback() {
       this.header = document.querySelector('.section-header');
-      this.menu = document.getElementById('drop-menu-ul');
+      this.menu = document.getElementById('drop-menu');
       this.mobileMediaQuery = window.matchMedia('(max-width: 990px)');
-      this.headerIsAlwaysSticky =
-        this.getAttribute('data-sticky-type') === 'always' ||
-        this.getAttribute('data-sticky-type') === 'reduce-logo-size';
+      this.headerIsAlwaysSticky = this.getAttribute('data-sticky-type') === 'always' || this.getAttribute('data-sticky-type') === 'reduce-logo-size';
       this.headerBounds = {};
       this.burger_close = document.getElementById("burger-close");
       this.burger_open = document.getElementById("burger-open");
@@ -397,7 +395,7 @@
 
       if (this.headerIsAlwaysSticky) {
         this.header.classList.add('shopify-section-header-sticky');
-      }
+      };
 
       this.currentScrollTop = 0;
       this.preventReveal = false;
@@ -417,7 +415,7 @@
     }
 
     disconnectedCallback() {
-      this.mobileMediaQuery.removeEventListener('change', this.setHeaderHeight);
+      //this.mobileMediaQuery.removeEventListener('change', this.setHeaderHeight);
       this.removeEventListener('preventHeaderReveal', this.hideHeaderOnScrollUp);
       window.removeEventListener('scroll', this.onScrollHandler);
     }
@@ -438,10 +436,12 @@
 
       if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
         this.header.classList.add('scrolled-past-header');
-        if (this.preventHide && false) return; // '&& false' added to negate this check or submenu stays open on scroll and sticky header doesn't reveal on scroll up
+        this.menu.classList.add('scrolled');
+        //if (this.preventHide && false) return; // '&& false' added to negate this check or submenu stays open on scroll and sticky header doesn't reveal on scroll up
         requestAnimationFrame(this.hide.bind(this));
       } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
         this.header.classList.add('scrolled-past-header');
+        this.menu.classList.add('scrolled');
         if (!this.preventReveal) {
           requestAnimationFrame(this.reveal.bind(this));
         } else {
@@ -455,6 +455,7 @@
         }
       } else if (scrollTop <= this.headerBounds.top) {
         this.header.classList.remove('scrolled-past-header');
+        this.menu.classList.remove('scrolled');
         requestAnimationFrame(this.reset.bind(this));
       }
 
@@ -462,26 +463,23 @@
     }
 
     hide() {
-      if (this.headerIsAlwaysSticky) return;
-      if (this.menu.style.display == "inline-flex")
-        {
-          this.menu.style.display = "flex"
-        }
-      else
-        {                                             
-          this.menu.style.display = "none";
-          this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
-          this.closeMenuDisclosure();
-          this.closeSearchModal();   
-        }
+      {
+        this.menu.classList.add('drop-menu-hidden');
+        this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
+        this.closeMenuDisclosure();
+        this.closeSearchModal();   
+      }
     }
 
     reveal() {
       //if (this.headerIsAlwaysSticky) return;
       this.header.classList.add('shopify-section-header-sticky', 'animate');
       this.header.classList.remove('shopify-section-header-hidden');
-      this.burger_close.style.display = "none";
-      this.burger_open.style.display = "flex";
+      //if (this.menu.classList.contains('drop-menu-hidden')) {
+      if (this.menu.classList.contains('drop-menu-hidden')) {
+        this.burger_close.style.display = "none";
+        this.burger_open.style.display = "flex";
+      }
     }
 
     reset() {
