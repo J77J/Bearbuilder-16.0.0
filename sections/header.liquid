@@ -27,12 +27,30 @@
 
   {%- if section.settings.menu_type_desktop != "drawer" -%}
     @media screen and (min-width: 990px) {
+      #drop-menu {
+      display: block;
+      }
       header-drawer {
+        display: none;
+      }
+      #burger-open {
+        display: flex;
+      }
+      #burger-close {
         display: none;
       }
     }
   {%- endif -%}
 
+  @media screen and (max-width: 990px) {  
+    .desktop-burger {
+      display: none;
+    }
+    #drop-menu {
+      display: none;
+    }
+  }
+  
   .menu-drawer-container {
     display: flex;
   }
@@ -121,6 +139,7 @@
   }
 {%- endstyle -%}
 
+<script src="{{ 'menu-show.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
@@ -164,6 +183,28 @@
   <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if country_selector or language_selector %} header--has-localizations{% endif %}">
     
     <div class="top-left-header-icons">
+      <div id="desktop-burger" class="left-header-icon">
+        <summary class="header__icon header__icon--menu header__icon--summary link focus-inset" aria-label="{{ 'sections.header.menu' | t }}">
+          <span id="burger-open" onclick="menuShowHideFunction()">
+            {% if section.settings.logo_position == 'top-center' %}
+              <span class="svg-wrapper">
+                {{ 'icon-hamburger.svg' | inline_asset_content }}
+              </span>
+            {% endif %}
+            <!-- <span class="remove-visually-hidden">
+              Menu
+            </span> -->
+          </span>
+          <span id="burger-close" onclick="menuShowHideFunction()">
+            <span class="svg-wrapper">
+              {{ 'icon-close.svg' | inline_asset_content }}
+            </span>
+            <!-- <span class="remove-visually-hidden">
+              Menu
+            </span> -->
+          </span>
+        </summary>
+      </div>
     
     {%- liquid
       assign render_search_left = false
@@ -341,11 +382,14 @@
 
     connectedCallback() {
       this.header = document.querySelector('.section-header');
+      this.menu = document.getElementById('drop-menu-ul');
       this.mobileMediaQuery = window.matchMedia('(max-width: 990px)');
       this.headerIsAlwaysSticky =
         this.getAttribute('data-sticky-type') === 'always' ||
         this.getAttribute('data-sticky-type') === 'reduce-logo-size';
       this.headerBounds = {};
+      this.burger_close = document.getElementById("burger-close");
+      this.burger_open = document.getElementById("burger-open");
 
       this.setHeaderHeight();
 
@@ -394,7 +438,7 @@
 
       if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
         this.header.classList.add('scrolled-past-header');
-        if (this.preventHide) return;
+        if (this.preventHide && false) return; // '&& false' added to negate this check or submenu stays open on scroll and sticky header doesn't reveal on scroll up
         requestAnimationFrame(this.hide.bind(this));
       } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
         this.header.classList.add('scrolled-past-header');
@@ -419,15 +463,25 @@
 
     hide() {
       if (this.headerIsAlwaysSticky) return;
-      this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
-      this.closeMenuDisclosure();
-      this.closeSearchModal();
+      if (this.menu.style.display == "inline-flex")
+        {
+          this.menu.style.display = "flex"
+        }
+      else
+        {                                             
+          this.menu.style.display = "none";
+          this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
+          this.closeMenuDisclosure();
+          this.closeSearchModal();   
+        }
     }
 
     reveal() {
-      if (this.headerIsAlwaysSticky) return;
+      //if (this.headerIsAlwaysSticky) return;
       this.header.classList.add('shopify-section-header-sticky', 'animate');
       this.header.classList.remove('shopify-section-header-hidden');
+      this.burger_close.style.display = "none";
+      this.burger_open.style.display = "flex";
     }
 
     reset() {
