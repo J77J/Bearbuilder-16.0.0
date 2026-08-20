@@ -738,6 +738,10 @@
         <script src="{{ 'product-model.js' | asset_url }}" defer></script>
       {%- endif -%}
 
+      {% for link in linklists.main-menu.links -%}
+        {{ link.json }}
+      {%- endfor %}         
+
       {%- liquid
         if product.selected_or_first_available_variant.featured_media
           assign seo_media = product.selected_or_first_available_variant.featured_media

@@ -339,6 +339,9 @@
       tabindex="-1"
       data-template="{{ template.name }}"
     >
+      {% if settings.show_breadcrumb_nav %}
+        {% render 'breadcrumbs' %}
+      {% endif %} 
       {{ content_for_layout }}
     </main>
 

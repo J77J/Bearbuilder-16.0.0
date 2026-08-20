@@ -33,6 +33,15 @@
       }
     ]
   },
+  {"name":"Navigation",
+  "settings":  [
+    {
+      "type":"checkbox",
+      "id":"show_breadcrumb_nav",
+      "label":"Show breadcrumb navigation"
+      }
+    ]
+  },
   {
     "name": "t:settings_schema.colors.name",
     "settings": [
@@ -153,7 +162,7 @@
         "type": "range",
         "id": "page_width",
         "min": 1000,
-        "max": 1600,
+        "max": 1800,
         "step": 100,
         "default": 1200,
         "unit": "px",

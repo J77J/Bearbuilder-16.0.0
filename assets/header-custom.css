@@ -1,0 +1,165 @@
+/* base.css 2528 */
+.top-left-header-icons {
+  display: inline-flex;
+  flex-direction: row;
+  margin-top: 28px;
+}
+
+.custom-header-icon-plus-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-header-icon {
+  display: flex;
+  order: 1;
+  justify-content: center;
+  height: auto;
+  min-height: 22px;
+  max-height: 35px;
+}
+
+.custom-header-icon-text {
+  order: 2;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+  /*margin-top: -10px;*/
+}
+
+.left-header-icon {
+
+}
+
+.header__search {
+  line-height: inherit;  
+}
+
+/* base.css */
+.header__icon span {
+  height: auto;
+}
+
+/* base.css */
+.header__icon--menu .icon {
+ /* position: relative; */ 
+}
+
+/*.header--mobile-center.page-width.drawer-menu {*/
+.page-width.drawer-menu {
+  max-width: var(--page-width);
+}
+
+#drop-menu-ul {
+@media screen and (min-width: 990px) {  
+  
+  @keyframes show-opacity {
+    from { opacity: 0; }
+  }
+
+  #drop-menu.drop-menu-hidden {
+    height: 0px;
+    transition: height 200ms ease-in;
+    position: relative;
+  }
+
+  #drop-menu {
+    height: 42px;
+    transition: height 200ms ease-in;
+  }
+
+  #drop-menu.drop-menu-hidden ul > li {
+    z-index: -1; 
+    opacity: 0;
+  }
+
+  #drop-menu ul > li {
+    z-index: inherit; 
+    opacity: 1;
+  }
+
+  #drop-menu:not(.drop-menu-hidden) ul > li {
+    animation: show-opacity 750ms;  
+  }
+
+  #drop-menu:not(.drop-menu-hidden) ul > li li{ /* in to speed up animation on second level dropdowns which don't really need the fade in.. */
+    animation: show-opacity 300ms;  
+  }
+
+  #drop-menu.scrolled {
+    top: 84px;
+    position: absolute;
+    background: var(--gradient-background);
+    width: 100%;
+    display: grid;
+    justify-content: center;
+  }
+
+  #drop-menu-ul {
+    /* display: none; */
+    /* opacity: 0; */
+    /* transition: opacity 200ms ease-in; */ 
+  }
+}
+
+@media screen and (max-width: 990px) {  
+  #desktop-burger {
+     display: none;
+  }
+  
+  .custom-header-icon-text {
+    display: none;
+    /*font-size: 10px;
+    font-weight: 500;*/
+  }
+}
+ 
+/* base.css 596 */
+@media screen and (max-width: 749px) {
+  .small-hide {
+    display: inline-flex !important;
+  }
+}
+
+/* base.css 2455 */
+@media screen and (min-width: 990px) {
+  .header:not(.header--middle-left, .header--middle-center) .header__inline-menu {
+    margin-top: 0;
+  }
+
+  .top-left-header-icons {
+    gap: 50px;
+  }
+
+  .header__icon--menu .icon {
+    transform: scale(1.3);
+  }
+
+  .header__icon:hover .icon, .modal__close-button:hover .icon {
+    transform: scale(1.37);
+  }
+}
+
+/* base.css 2494*/
+@media screen and (max-width: 749px) {
+  .header__heading-logo {
+    height: auto;
+    max-width: 75%;
+  }
+}
+
+/* base.css 2640 */
+.header--top-center > .top-left-header-icons .header__search {
+  display: inline-flex;
+}
+
+/* base.css 2644 */
+.header--top-center * > .header__search {
+  display: none;
+}
+
+/* base.css
+details[open] > .header__menu-item {
+  text-decoration: none;
+}  */
