@@ -1,0 +1,14 @@
+@media screen and (min-width: 990px) {
+  /* narrows slider to page width */
+  .slider-component-desktop.page-width {
+    max-width: var(--page-width);
+  }
+
+  /* sets first card in slider to start of container instead of spaced over */
+slider-component {
+  --desktop-margin-left-first-item: 0px;
+  position: relative;
+  display: block;
+}
+
+}
